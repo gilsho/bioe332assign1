@@ -300,11 +300,11 @@ Pe.V = Vr_p + rand(Np) * (Vt_p - Vr_p)
 
 
 # open file for storing population vector statistics 
-fpopv = open(POPULATION_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')     
+fpopv = open(str(Np) + POPULATION_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')     
 fpopv.write(str(i_cue_ang)+'\n')            #write cue angle on first line
 
 #open file for storing information on individual neuron activity
-fneuron = open(NEURON_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')
+fneuron = open(str(Np) + NEURON_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')
 fneuron.write(str(len(sample_exc_neurons)))
 fneuron.write(str(len(sample_inh_neurons)))
 
