@@ -59,7 +59,7 @@ gL_i = 20 * nS            # total leak conductance gL
 
 # leak reversal potential El
 if (pa.rleak):
-    El_i = random.normal(-70,1) * mvolt
+    El_i = numpy.random.normal(-70,1) * mvolt
 else:
     El_i = -70 * mvolt        
 
@@ -316,9 +316,9 @@ run(sim_duration)
 fpopv.close()                        
 
 
-# subplot(211)
-# raster_plot(M)
-# subplot(212)
-# raster_plot(Q)
-# show()
+#subplot(211)
+#raster_plot(M)
+#subplot(212)
+#raster_plot(Q)
+#show()
 

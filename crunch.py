@@ -3,8 +3,8 @@ from matplotlib.pyplot import *
 from numpy import *
 
 SIMTIME = 6
-FAMILIES = [1024]
-NUM_FILES = 2
+FAMILIES = [4096]
+NUM_FILES = 1
 BASE_FILE_NAME = 'sim'
 NUM_SAMPLES		 = 30000-1
 
@@ -27,7 +27,7 @@ def process_family(fam):
 
 def process_sim_file(ndir,nsim):
 	drift = []
-	f = open(str(ndir) + '/' + BASE_FILE_NAME + str(nsim) + '.dat','r')
+	f = open(str(ndir) + BASE_FILE_NAME + str(nsim) + '.dat','r')
 	ang_cue = float(f.readline())
 	for line in f:
 		drift.append(ang_cue - float(line))
