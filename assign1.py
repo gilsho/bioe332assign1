@@ -285,7 +285,7 @@ def update_neuron_stats(current_clock):
 
             #not quite sure if these are the right statistics
             current_inh =  Gii*s_gaba*(V - E_gaba) 
-            current_bck = g_ext_p*s_ext*(V - E_ampa)
+            current_bck = g_ext_i*s_ext*(V - E_ampa)    # changed _p to _i
 
             fneuron.write(str(n)+',')
             fneuron.write(str(current_inh) + ',')
