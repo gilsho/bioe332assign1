@@ -267,12 +267,14 @@ def update_neuron_stats(current_clock):
             s_ext = Pe.s_ext[n]
             
             #not quite sure if these are the right statistics
-            current_exc = Gee*s_tot*(V - E_nmda)/(1 + b*exp(-a*V))
-            current_bck = g_ext_p*s_ext*(V - E_ampa)
-            
+            current_exc = Gee*s_tot*(V - E_nmda)/(1 + b*exp(-a*V))  # recurrent excitation
+            current_bck = g_ext_p*s_ext*(V - E_ampa) # background excitatory current
+            current_inh = Gie*s_gaba*(V - E_gaba)   # recurrent inhibition
+
             fneuron.write(str(n)+',')
             fneuron.write(str(current_exc) + ',')
-            fneuron.write(str(current_bck))
+            fneuron.write(str(current_bck) + ',')
+            fneuron.write(str(current_inh))
             fneuron.write(' ')
 
         fneuron.write('\n')
