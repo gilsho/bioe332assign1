@@ -17,7 +17,9 @@ parser = argparse.ArgumentParser()
 parser.add_argument('-Np', type = int, default = '2048')
 parser.add_argument('-seed', type = int, default = 0)
 parser.add_argument('-rleak', type = int, default = False)
-parser.add_argument('-icue', type = double, default=0.000000001)
+parser.add_argument('-icue', type = float, default=0.000000001)
+parser.add_argument('-decay', type = float, default=0.99)
+
 pa = parser.parse_args()
 numpy.random.seed(pa.seed)
 
@@ -58,8 +60,8 @@ Cm_i = 0.2 * nF           # total capacitance Cm
 gL_i = 20 * nS            # total leak conductance gL
 
 # leak reversal potential El
-if (pa.rleak):
-    El_i = numpy.random.normal(-70,1) * mvolt
+if (pa.rleak > 0):
+    El_i = numpy.random.normal(-70,pa.rleak) * mvolt
 else:
     El_i = -70 * mvolt        
 
@@ -220,7 +222,7 @@ for i in range(Np):
 
 
 #keep an exponentially moving average of number of spikes per neuron
-decay = 0.99
+decay = pa.decay
 spikebin = numpy.zeros(Np)
 
 
@@ -270,11 +272,11 @@ def update_neuron_stats(current_clock):
             current_exc = Gee*s_tot*(V - E_nmda)/(1 + b*exp(-a*V))
             current_bck = g_ext_p*s_ext*(V - E_ampa)
             
-            fneuron.write('1,')            
-            fneuron.write(str(n)+',')
-            fneuron.write(str(current_exc) + ',')
-            fneuron.write(str(current_bck))
-            fneuron.write('\n')
+            # fneuron.write('1,')            
+            # fneuron.write(str(n)+',')
+            # fneuron.write(str(current_exc) + ',')
+            # fneuron.write(str(current_bck))
+            # fneuron.write('\n')
 
         for n in sample_inh_neurons:
             V = Pi.V[n]  * mvolt
@@ -285,11 +287,11 @@ def update_neuron_stats(current_clock):
             current_inh =  Gii*s_gaba*(V - E_gaba) 
             current_bck = g_ext_i*s_ext*(V - E_ampa)
 
-            fneuron.write('0,')
-            fneuron.write(str(n)+',')
-            fneuron.write(str(current_inh) + ',')
-            fneuron.write(str(current_bck))
-            fneuron.write('\n')
+            # fneuron.write('0,')
+            # fneuron.write(str(n)+',')
+            # fneuron.write(str(current_inh) + ',')
+            # fneuron.write(str(current_bck))
+            # fneuron.write('\n')
 
 
 M = SpikeMonitor(Pe)
@@ -304,14 +306,15 @@ fpopv = open(str(Np) + POPULATION_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')
 fpopv.write(str(i_cue_ang)+'\n')            #write cue angle on first line
 
 #open file for storing information on individual neuron activity
-fneuron = open(str(Np) + NEURON_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')
-fneuron.write(str(len(sample_exc_neurons))+'\n')
-fneuron.write(str(len(sample_inh_neurons))+'\n')
+#fneuron = open(str(Np) + NEURON_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')
+#fneuron.write(str(len(sample_exc_neurons))+'\n')
+#fneuron.write(str(len(sample_inh_neurons))+'\n')
 
 run(sim_duration)
 
 #close files
-fpopv.close()                        
+fpopv.close()   
+#fneuron.close()                     
 
 
 #fig = plt.figure()

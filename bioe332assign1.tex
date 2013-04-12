@@ -1,0 +1,106 @@
+\documentclass[10pt]{article}
+
+%AMS-TeX packages
+\usepackage{comment}
+\usepackage{amssymb,amsmath,amsthm} 
+\usepackage{enumerate}
+\usepackage{algpseudocode}
+\usepackage[framed,numbered,autolinebreaks,useliterate]{mcode}
+%geometry (sets margin) and other useful packages
+\usepackage[margin=1in]{geometry}
+\usepackage{graphicx,ctable,booktabs}
+\usepackage{longtable}
+\usepackage{bbm}
+%Graph Packages
+\usepackage{tikz}
+\usepackage{tikz,fullpage}
+\usepackage{multicol}
+\usetikzlibrary{arrows,%
+                petri,%
+                topaths}%
+%\usepackage{tkz-berge}
+\usepackage[position=top]{subfig}
+
+
+
+%
+%Redefining sections as problems
+%
+\makeatletter
+\newenvironment{problem}{\@startsection
+       {section}
+       {1}
+       {-.2em}
+       {-3.5ex plus -1ex minus -.2ex}
+       {2.3ex plus .2ex}
+       {\pagebreak[3]%forces pagebreak when space is small; use \eject for better results
+       \large\bf\noindent{Problem }
+       }
+}
+{%\vspace{1ex}\begin{center} \rule{0.3\linewidth}{.3pt}\end{center}}
+\begin{center}\large\bf \ldots\ldots\ldots\end{center}}
+\makeatother
+
+%Redefine the first level of lists
+\renewcommand{\theenumi}{\arabic{enumi}}
+ 
+%Redefine the second level of lists
+\renewcommand{\theenumii}{\arabic{enumii}}
+\renewcommand{\labelenumii}{\theenumi.\theenumii .}
+
+%
+%Fancy-header package to modify header/page numbering 
+%
+\usepackage{fancyhdr}
+\pagestyle{fancy}
+%\addtolength{\headwidth}{\marginparsep} %these change header-rule width
+%\addtolength{\headwidth}{\marginparwidth}
+\lhead{Gil Shotan}
+\chead{} 
+\rhead{Lance Martin } 
+\lfoot{\small\scshape BioE 332} 
+\cfoot{\thepage} 
+\rfoot{\footnotesize Assignment 1} 
+\renewcommand{\headrulewidth}{.3pt} 
+\renewcommand{\footrulewidth}{.3pt}
+\setlength\voffset{-0.25in}
+\setlength\textheight{648pt}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+% Title Page
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{document}
+
+\title{BioE 332 Assignment 1: Working Memory}
+\author{Lance Martin \\ Gil Shotan}
+%\date{}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%Contents of problem set
+%
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\section*{Figures}
+\begin{center}
+\includegraphics[scale=0.4]{data/raster.png}
+\includegraphics[scale=0.7]{data/trace1024.png}
+\includegraphics[scale=0.7]{data/trace2048.png}
+\includegraphics[scale=0.7]{data/trace4096.png}
+\includegraphics[scale=0.7]{data/variance.png}
+\end{center}
+\section*{Code}
+
+\subsubsection*{assign1.py}
+\lstinputlisting[language=Python]{assign1.py}
+
+\subsubsection*{crunch1.py}
+\lstinputlisting[language=Python]{crunch.py}
+
+\end{document}
