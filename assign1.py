@@ -121,7 +121,7 @@ sample_exc_neurons = range(sample_active_start,sample_active_end,sample_step)
 sample_inactive_start = (i_cue_ang+180 % 360)
 sample_inactive_end = sample_inactive_start+i_cue_width
 sample_step = int((sample_inactive_end-sample_inactive_start)/sample_size)
-sample_exc_neurons.append([n % 360 for n in range(sample_inactive_start, sample_inactive_end,sample_step)])
+sample_exc_neurons.extend([n % 360 for n in range(sample_inactive_start, sample_inactive_end,sample_step)])
 
 sample_inh_neurons = range(1,Ni,int(Ni/sample_size))
 
@@ -267,17 +267,15 @@ def update_neuron_stats(current_clock):
             s_ext = Pe.s_ext[n]
             
             #not quite sure if these are the right statistics
-            current_exc = Gee*s_tot*(V - E_nmda)/(1 + b*exp(-a*V))  # recurrent excitation
-            current_bck = g_ext_p*s_ext*(V - E_ampa) # background excitatory current
-            current_inh = Gie*s_gaba*(V - E_gaba)   # recurrent inhibition
-
+            current_exc = Gee*s_tot*(V - E_nmda)/(1 + b*exp(-a*V))
+            current_bck = g_ext_p*s_ext*(V - E_ampa)
+            
+            fneuron.write('1,')            
             fneuron.write(str(n)+',')
             fneuron.write(str(current_exc) + ',')
-            fneuron.write(str(current_bck) + ',')
-            fneuron.write(str(current_inh))
-            fneuron.write(' ')
+            fneuron.write(str(current_bck))
+            fneuron.write('\n')
 
-        fneuron.write('\n')
         for n in sample_inh_neurons:
             V = Pi.V[n]  * mvolt
             s_gaba = Pi.s_gaba[n]
@@ -285,13 +283,13 @@ def update_neuron_stats(current_clock):
 
             #not quite sure if these are the right statistics
             current_inh =  Gii*s_gaba*(V - E_gaba) 
-            current_bck = g_ext_i*s_ext*(V - E_ampa)    # changed _p to _i
+            current_bck = g_ext_i*s_ext*(V - E_ampa)
 
+            fneuron.write('0,')
             fneuron.write(str(n)+',')
             fneuron.write(str(current_inh) + ',')
             fneuron.write(str(current_bck))
-            fneuron.write(' ') 
-        fneuron.write('\n')
+            fneuron.write('\n')
 
 
 M = SpikeMonitor(Pe)
@@ -307,8 +305,8 @@ fpopv.write(str(i_cue_ang)+'\n')            #write cue angle on first line
 
 #open file for storing information on individual neuron activity
 fneuron = open(str(Np) + NEURON_OUTPUT_FILE_BASE + str(pa.seed) + '.dat','w+')
-fneuron.write(str(len(sample_exc_neurons)))
-fneuron.write(str(len(sample_inh_neurons)))
+fneuron.write(str(len(sample_exc_neurons))+'\n')
+fneuron.write(str(len(sample_inh_neurons))+'\n')
 
 run(sim_duration)
 
@@ -316,9 +314,15 @@ run(sim_duration)
 fpopv.close()                        
 
 
+#fig = plt.figure()
+#ax1 = fig.add_subplot(211)
 #subplot(211)
-#raster_plot(M)
-#subplot(212)
+#set_ylabel('I neuron #')
 #raster_plot(Q)
+#ax2 = fig.add_subplot(212)
+#subplot(212)
+#ax2.set_xlabel('Time, s')
+#ax2.set_ylabel('E neuron #')
+#raster_plot(M)
 #show()
 
